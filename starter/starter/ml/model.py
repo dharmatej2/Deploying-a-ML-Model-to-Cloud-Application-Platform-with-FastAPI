@@ -1,60 +1,58 @@
-from sklearn.metrics import fbeta_score, precision_score, recall_score
+import joblib
+import numpy as np
+from .data import process_data
 
 
-# Optional: implement hyperparameter tuning.
-def train_model(X_train, y_train):
+def load_model():
     """
-    Trains a machine learning model and returns it.
-
-    Inputs
-    ------
-    X_train : np.array
-        Training data.
-    y_train : np.array
-        Labels.
-    Returns
-    -------
-    model
-        Trained machine learning model.
+    Load the trained model, encoder, and label binarizer.
     """
+    model = joblib.load('/home/dharmatej/Deploying-a-ML-Model-to-Cloud-Application-Platform-with-FastAPI/starter/starter/model.joblib')  # load the trained model
+    encoder = joblib.load('/home/dharmatej/Deploying-a-ML-Model-to-Cloud-Application-Platform-with-FastAPI/starter/starter/encoder.joblib')  # load the encoder (for categorical features)
+    lb = joblib.load('/home/dharmatej/Deploying-a-ML-Model-to-Cloud-Application-Platform-with-FastAPI/starter/starter/label_binarizer.joblib')  # load the label binarizer (for target labels)
+    
+    return model, encoder, lb
 
-    pass
-
-
-def compute_model_metrics(y, preds):
+def model_inference(model, encoder, lb, data):
     """
-    Validates the trained machine learning model using precision, recall, and F1.
+    Perform inference (prediction) using the trained model.
 
-    Inputs
-    ------
-    y : np.array
-        Known labels, binarized.
-    preds : np.array
-        Predicted labels, binarized.
-    Returns
-    -------
-    precision : float
-    recall : float
-    fbeta : float
+    :param model: Trained model
+    :param encoder: Pre-fitted encoder for processing categorical features
+    :param lb: Pre-fitted label binarizer for target variable
+    :param data: Input data for which predictions are to be made
+    :return: Prediction (in the same format as training labels)
     """
-    fbeta = fbeta_score(y, preds, beta=1, zero_division=1)
-    precision = precision_score(y, preds, zero_division=1)
-    recall = recall_score(y, preds, zero_division=1)
-    return precision, recall, fbeta
+    # Preprocess the input data (this assumes data is a dictionary)
+    # Extract values in the same order as during training
+    ordered_keys = ["workclass", "education", "marital-status", "occupation", "relationship", "race", "sex", "native-country"]
+    data_values = [data[key] for key in ordered_keys]
+    processed_data = encoder.transform([data_values])
 
+    prediction = model.predict(processed_data)  # Make the prediction
+    
+    # Return the predicted label (e.g., " <=50K" or " >50K")
+    return lb.inverse_transform(prediction)[0]  # Inverse transform to get original label
 
-def inference(model, X):
-    """ Run model inferences and return the predictions.
-
-    Inputs
-    ------
-    model : ???
-        Trained machine learning model.
-    X : np.array
-        Data used for prediction.
-    Returns
-    -------
-    preds : np.array
-        Predictions from the model.
+def evaluate_model(test_data, model, encoder, lb, categorical_features):
     """
-    pass
+    Evaluate the model on test data and return performance metrics.
+
+    :param test_data: Dataframe containing test data
+    :param model: Trained model
+    :param encoder: Pre-fitted encoder
+    :param lb: Pre-fitted label binarizer
+    :return: Accuracy or any other metric
+    """
+    # Preprocess the test data
+    X_test, y_test, _, _ = process_data(test_data, categorical_features, label='salary', training=False)
+
+    # Predict on the test data
+    predictions = model.predict(X_test)
+    
+    # Convert predictions back to original labels
+    predictions = lb.inverse_transform(predictions)
+    
+    # Evaluate accuracy (you can extend this to more metrics)
+    accuracy = np.mean(predictions == y_test)
+    return accuracy
