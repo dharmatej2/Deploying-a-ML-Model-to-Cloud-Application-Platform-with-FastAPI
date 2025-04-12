@@ -24,26 +24,34 @@ def test_load_model():
 
 # Test for the model_inference function
 def test_model_inference():
-    # Assuming a dummy data sample for inference
+    # Create a dummy data sample with both continuous and categorical features.
     data = {
+        "age": 39,
         "workclass": "Private",
+        "fnlgt": 77516,
         "education": "Bachelors",
+        "education-num": 13,
         "marital-status": "Never-married",
         "occupation": "Exec-managerial",
         "relationship": "Not-in-family",
         "race": "White",
         "sex": "Male",
+        "capital-gain": 2174,
+        "capital-loss": 0,
+        "hours-per-week": 40,
         "native-country": "United-States"
     }
-    
+
     # Load the model, encoder, and label binarizer
     model, encoder, lb = load_model()
     
-    # Perform inference
+    # Perform inference using the updated model_inference function
     result = model_inference(model, encoder, lb, data)
     
     # Check that the result is one of the expected classes
     assert result in [' <=50K', ' >50K']
+
+
 
 # Test for the evaluate_model function
 def test_evaluate_model():

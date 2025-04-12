@@ -1,5 +1,6 @@
 import joblib
 import numpy as np
+import pandas as pd
 from .data import process_data
 
 
@@ -16,43 +17,52 @@ def load_model():
 def model_inference(model, encoder, lb, data):
     """
     Perform inference (prediction) using the trained model.
-
+    
     :param model: Trained model
     :param encoder: Pre-fitted encoder for processing categorical features
     :param lb: Pre-fitted label binarizer for target variable
-    :param data: Input data for which predictions are to be made
+    :param data: A dictionary containing all input features (both continuous and categorical)
     :return: Prediction (in the same format as training labels)
     """
-    # Preprocess the input data (this assumes data is a dictionary)
-    # Extract values in the same order as during training
-    ordered_keys = ["workclass", "education", "marital-status", "occupation", "relationship", "race", "sex", "native-country"]
-    data_values = [data[key] for key in ordered_keys]
-    processed_data = encoder.transform([data_values])
-
-    prediction = model.predict(processed_data)  # Make the prediction
+    # Convert the dictionary into a DataFrame (so it is 2D)
+    df = pd.DataFrame([data])
     
-    # Return the predicted label (e.g., " <=50K" or " >50K")
-    return lb.inverse_transform(prediction)[0]  # Inverse transform to get original label
+    # Define the categorical features exactly as in training.
+    categorical_features = ["workclass", "education", "marital-status", "occupation",
+                            "relationship", "race", "sex", "native-country"]
+    
+    # Process the data. Note: label is None since we’re doing inference.
+    X, _, _, _ = process_data(df, categorical_features=categorical_features, label=None,
+                                training=False, encoder=encoder, lb=lb)
+    
+    # Predict using the model
+    prediction = model.predict(X)
+    
+    # Inverse transform to get the original label
+    return lb.inverse_transform(prediction)[0]
 
 def evaluate_model(test_data, model, encoder, lb, categorical_features):
     """
     Evaluate the model on test data and return performance metrics.
 
-    :param test_data: Dataframe containing test data
+    :param test_data: DataFrame containing test data
     :param model: Trained model
     :param encoder: Pre-fitted encoder
     :param lb: Pre-fitted label binarizer
-    :return: Accuracy or any other metric
+    :param categorical_features: List of categorical feature names used during training
+    :return: Accuracy as a float
     """
-    # Preprocess the test data
-    X_test, y_test, _, _ = process_data(test_data, categorical_features, label='salary', training=False)
-
-    # Predict on the test data
+    # Pass encoder and lb to process_data when training is False
+    X_test, y_test, _, _ = process_data(
+        test_data,
+        categorical_features=categorical_features,
+        label='salary',
+        training=False,
+        encoder=encoder,
+        lb=lb
+    )
     predictions = model.predict(X_test)
-    
-    # Convert predictions back to original labels
     predictions = lb.inverse_transform(predictions)
-    
-    # Evaluate accuracy (you can extend this to more metrics)
     accuracy = np.mean(predictions == y_test)
     return accuracy
+
