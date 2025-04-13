@@ -1,4 +1,5 @@
 import joblib
+import os
 import numpy as np
 import pandas as pd
 from .data import process_data
@@ -8,11 +9,21 @@ def load_model():
     """
     Load the trained model, encoder, and label binarizer.
     """
-    model = joblib.load('/home/dharmatej/Deploying-a-ML-Model-to-Cloud-Application-Platform-with-FastAPI/starter/starter/model.joblib')  # load the trained model
-    encoder = joblib.load('/home/dharmatej/Deploying-a-ML-Model-to-Cloud-Application-Platform-with-FastAPI/starter/starter/encoder.joblib')  # load the encoder (for categorical features)
-    lb = joblib.load('/home/dharmatej/Deploying-a-ML-Model-to-Cloud-Application-Platform-with-FastAPI/starter/starter/label_binarizer.joblib')  # load the label binarizer (for target labels)
-    
+    # Get the current directory (which is .../starter/starter/ml)
+    base_dir = os.path.dirname(__file__)
+
+    # Build paths to model artifacts relative to the ml directory
+    model_path = os.path.abspath(os.path.join(base_dir, "..", "model.joblib"))
+    encoder_path = os.path.abspath(os.path.join(base_dir, "..", "encoder.joblib"))
+    lb_path = os.path.abspath(os.path.join(base_dir, "..", "label_binarizer.joblib"))
+
+    # Load the files
+    model = joblib.load(model_path)
+    encoder = joblib.load(encoder_path)
+    lb = joblib.load(lb_path)
+
     return model, encoder, lb
+
 
 def model_inference(model, encoder, lb, data):
     """
