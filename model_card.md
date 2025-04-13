@@ -19,7 +19,9 @@ The model may not generalize well to datasets outside of the U.S. or that signif
 
 ### Model Metrics on Slices of Data
 The following metrics were computed for each unique value in the education feature:
-in file slice_output.txt
+
+From file slice_output.txt
+
 Feature: education =  Bachelors | Precision: 0.8311 | Recall: 0.2814 | F1: 0.4205
 Feature: education =  HS-grad | Precision: 0.5610 | Recall: 0.2113 | F1: 0.3070
 Feature: education =  11th | Precision: 0.5455 | Recall: 0.4000 | F1: 0.4615
@@ -56,13 +58,13 @@ Recall	(fill value)
 F1 Score	(fill value)
 
 ## Ethical Considerations
-### Biases in Data: The model is trained on demographic data which may contain biases. Features like race, sex, and education level may introduce discrimination if the model is used improperly.
+Biases in Data: The model is trained on demographic data which may contain biases. Features like race, sex, and education level may introduce discrimination if the model is used improperly.
 
-### Fairness: Care should be taken to ensure fairness, particularly in sensitive applications such as hiring or lending.
+airness: Care should be taken to ensure fairness, particularly in sensitive applications such as hiring or lending.
 
 ## Caveats and Recommendations
-### Generalization: This model may not perform well on data outside the U.S. or data that differs significantly from the training set.
+Generalization: This model may not perform well on data outside the U.S. or data that differs significantly from the training set.
 
-### Bias: The model could be biased due to the demographic variables in the dataset. It is essential to evaluate fairness before deploying it in sensitive areas.
+Bias: The model could be biased due to the demographic variables in the dataset. It is essential to evaluate fairness before deploying it in sensitive areas.
 
-### Usage: It’s recommended to combine this model with additional fairness checks and other data sources to avoid discriminatory outcomes.
+Usage: It’s recommended to combine this model with additional fairness checks and other data sources to avoid discriminatory outcomes.
