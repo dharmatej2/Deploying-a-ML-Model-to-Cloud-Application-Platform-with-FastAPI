@@ -1,0 +1,5 @@
+[
+  "starter/ml/test_model.py::test_evaluate_model",
+  "starter/ml/test_model.py::test_load_model",
+  "starter/ml/test_model.py::test_model_inference"
+]
