@@ -36,7 +36,8 @@ def model_inference(model, encoder, lb, data):
     :param model: Trained model
     :param encoder: Pre-fitted encoder for processing categorical features
     :param lb: Pre-fitted label binarizer for target variable
-    :param data: A dictionary containing all input features (both continuous and categorical)
+    :param data: A dictionary containing all input features\
+          (both continuous and categorical)
     :return: Prediction (in the same format as training labels)
     """
     # Convert the dictionary into a DataFrame (so it is 2D)
@@ -79,7 +80,8 @@ def evaluate_model(test_data, model, encoder, lb, categorical_features):
     :param model: Trained model
     :param encoder: Pre-fitted encoder
     :param lb: Pre-fitted label binarizer
-    :param categorical_features: List of categorical feature names used during training
+    :param categorical_features: List of categorical\
+          feature names used during training
     :return: Accuracy as a float
     """
     # Pass encoder and lb to process_data when training is False

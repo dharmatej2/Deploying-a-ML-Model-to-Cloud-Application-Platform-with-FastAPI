@@ -66,7 +66,7 @@ async def predict(input_data: PredictionInput):
         "native_country",
     ]
 
-    # Process the data like you did for training (no need to worry about 'label')
+    # Process the data like done for training
     X, _, _, _ = process_data(
         pd.DataFrame([data]),  # Convert the single input dict to a DataFrame
         categorical_features=categorical_features,
