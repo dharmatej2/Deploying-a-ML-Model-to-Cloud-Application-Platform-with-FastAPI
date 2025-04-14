@@ -9,4 +9,6 @@ uvicorn
 gunicorn
 pre-commit
 black
-isort
+isort==5.13.2
+autopep8==2.1.0
+autoflake==2.2.1
