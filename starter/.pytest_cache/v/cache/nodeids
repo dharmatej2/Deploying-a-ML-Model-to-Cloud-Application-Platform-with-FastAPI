@@ -1,5 +1,9 @@
 [
   "starter/ml/test_model.py::test_evaluate_model",
   "starter/ml/test_model.py::test_load_model",
-  "starter/ml/test_model.py::test_model_inference"
+  "starter/ml/test_model.py::test_model_inference",
+  "test_main.py::test_get_content",
+  "test_main.py::test_get_status_code",
+  "test_main.py::test_model_prediction_negative",
+  "test_main.py::test_model_prediction_positive"
 ]

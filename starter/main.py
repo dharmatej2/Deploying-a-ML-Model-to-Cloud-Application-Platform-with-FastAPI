@@ -2,8 +2,8 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import joblib
 import os
-from starter.starter.ml.model import load_model  # We will load our model, encoder, lb from here
-from starter.starter.ml.data import process_data
+from starter.ml.model import load_model  # We will load our model, encoder, lb from here
+from starter.ml.data import process_data
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder

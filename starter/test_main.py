@@ -11,20 +11,52 @@ def test_get_status_code():
 
 def test_get_content():
     response = client.get("/")
-    assert "Welcome" in response.text  # Replace this with actual expected content of your response
+    assert "Hello World" in response.text  # Replace this with actual expected content of your response
 
 def test_model_prediction_positive():
     # Test case for a positive prediction (e.g., salary >50K)
-    payload = {"age": 45, "education": "Bachelors", "hours-per-week": 50}  # Example input
-    response = client.post("/predict", json=payload)
+    payload = {
+        "age": 45,
+        "workclass": "Private",
+        "fnlgt": 123456,
+        "education": "Doctorate",
+        "education_num": 16,
+        "marital_status": "Married-civ-spouse",
+        "occupation": "Exec-managerial",
+        "relationship": "Husband",
+        "race": "White",
+        "sex": "Male",
+        "capital_gain": 10000,
+        "capital_loss": 0,
+        "hours_per_week": 60,
+        "native_country": "United-States"
+    }  # Example input
+    response = client.post("/predict/", json=payload)
+    print("Prediction result:", response.json())
     assert response.status_code == 200  # Ensure the status code is 200
     assert "prediction" in response.json()  # Check if the "prediction" field is in the response
-    assert response.json()["prediction"] == 1  # Assuming 1 means salary >50K
+    assert response.json()["prediction"] == " >50K"  
 
 def test_model_prediction_negative():
     # Test case for a negative prediction (e.g., salary <=50K)
-    payload = {"age": 30, "education": "HS-grad", "hours-per-week": 40}  # Example input
-    response = client.post("/predict", json=payload)
+    payload = {
+        "age": 23,
+        "workclass": "Private",
+        "fnlgt": 0,
+        "education": "HS-grad",
+        "education_num": 0,
+        "marital_status": "Never-married",
+        "occupation": "Handlers-cleaners",
+        "relationship": "Own-child",
+        "race": "Black",
+        "sex": "Female",
+        "capital_gain": 0,
+        "capital_loss": 0,
+        "hours_per_week": 20,
+        "native_country": "United-States"
+    }  # Example input
+    response = client.post("/predict/", json=payload)
+    print("Prediction result:", response.json())
     assert response.status_code == 200  # Ensure the status code is 200
     assert "prediction" in response.json()  # Check if the "prediction" field is in the response
-    assert response.json()["prediction"] == 0  # Assuming 0 means salary <=50K
+    assert response.json()["prediction"] == " <=50K"  
