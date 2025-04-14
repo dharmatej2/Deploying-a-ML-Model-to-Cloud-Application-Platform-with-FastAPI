@@ -8,8 +8,8 @@ from .data import process_data
 from .model import load_model
 
 
-def compute_slice_metrics(data: pd.DataFrame,\
-                           slice_column: str, output_file: str):
+def compute_slice_metrics(data: pd.DataFrame, 
+                          slice_column: str, output_file: str):
     # Dynamically construct model paths
     base_path = Path(__file__).resolve().parent.parent
     base_path / "model.joblib"

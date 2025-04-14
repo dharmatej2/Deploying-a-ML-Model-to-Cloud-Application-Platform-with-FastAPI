@@ -10,7 +10,7 @@ WARN_COLOR = "\033[93m"
 
 
 def run_sanity_check(test_dir):
-    # assert path.isdir(test_dir), FAIL_COLOR+f"No direcotry 
+    # assert path.isdir(test_dir), FAIL_COLOR+f"No direcotry\
     # named {test_dir} found in {os.getcwd()}"
     print(
         "This script will perform a sanity test to ensure your\
@@ -76,7 +76,8 @@ def run_sanity_check(test_dir):
             source = inspect.getsource(getattr(module, func))
             if source.find(".status_code") != -1:
                 TEST_FOR_GET_METHOD_RESPONSE_CODE = True
-            if (source.find(".json") != -1) or (source.find("json.loads") != -1):
+            if (source.find(".json") != -1) or (\
+                source.find("json.loads") != -1):
                 TEST_FOR_GET_METHOD_RESPONSE_BODY = True
 
         if not TEST_FOR_GET_METHOD_RESPONSE_CODE:
@@ -134,8 +135,8 @@ def run_sanity_check(test_dir):
             source = inspect.getsource(getattr(module, func))
             if source.find(".status_code") != -1:
                 TEST_FOR_POST_METHOD_RESPONSE_CODE = True
-            if (source.find(".json") != -1) or\
-                  (source.find("json.loads") != -1):
+            if (source.find(".json") != -1) or (\
+                source.find("json.loads") != -1):
                 TEST_FOR_POST_METHOD_RESPONSE_BODY = True
                 COUNT_POST_METHOD_TEST_FOR_INFERENCE_RESULT += 1
 
