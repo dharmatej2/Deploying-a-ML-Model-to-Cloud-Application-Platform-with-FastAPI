@@ -2,9 +2,9 @@ import pandas as pd
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from starter.ml.data import process_data
+from starter.starter.ml.data import process_data
 # We will load our model, encoder, lb from here
-from starter.ml.model import load_model
+from starter.starter.ml.model import load_model
 
 # Create the FastAPI app instance
 app = FastAPI()
