@@ -3,7 +3,7 @@ services:
     name: ml-fastapi-deploy
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: ./starter/start.sh
+    startCommand: ./start.sh
     rootDir: starter
     plan: free
     branch: master
